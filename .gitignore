@@ -1,6 +1,23 @@
 # Windows
 Thumbs.db
+Desktop.ini
 *.tmp
+*.log
 
 # Office temp
 ~$*
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
+# Build / release artifacts (generated)
+Tests/Source_for_developers/build/*.xlsx
+Tests/Source_for_developers/build/*.docx
+Tests/Source_for_developers/harness/*.xlsx
+
+# OS
+.DS_Store
