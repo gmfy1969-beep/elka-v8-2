@@ -1,0 +1,80 @@
+﻿{
+  "valid": true,
+  "summary": {
+    "sheets": 24,
+    "visibleSheets": 24,
+    "formulas": 10117,
+    "definedNames": 0,
+    "charts": 0,
+    "issues": 0,
+    "warnings": 13
+  },
+  "issues": [],
+  "warnings": [
+    {
+      "code": "stringified_number_or_date",
+      "sheet": "Панель",
+      "count": 1
+    },
+    {
+      "code": "formula_cache_missing",
+      "sheet": "Панель",
+      "count": 18
+    },
+    {
+      "code": "full_column_formula_reference",
+      "sheet": "Ввод",
+      "count": 25
+    },
+    {
+      "code": "full_column_formula_reference",
+      "sheet": "Остатки",
+      "count": 25
+    },
+    {
+      "code": "full_column_formula_reference",
+      "sheet": "Спецификация",
+      "count": 25
+    },
+    {
+      "code": "full_column_formula_reference",
+      "sheet": "Объединения",
+      "count": 25
+    },
+    {
+      "code": "full_column_formula_reference",
+      "sheet": "Некомплектные_ПФ",
+      "count": 25
+    },
+    {
+      "code": "full_column_formula_reference",
+      "sheet": "Заказы",
+      "count": 25
+    },
+    {
+      "code": "stringified_number_or_date",
+      "sheet": "Адреса",
+      "count": 25
+    },
+    {
+      "code": "stringified_number_or_date",
+      "sheet": "Операции",
+      "count": 25
+    },
+    {
+      "code": "stringified_number_or_date",
+      "sheet": "Настройки",
+      "count": 16
+    },
+    {
+      "code": "missing_sources_or_inputs",
+      "sheet": null,
+      "count": null
+    },
+    {
+      "code": "missing_checks_sheet",
+      "sheet": null,
+      "count": null
+    }
+  ]
+}

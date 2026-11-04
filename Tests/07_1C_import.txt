@@ -1,0 +1,2 @@
+﻿lr1c=5 wb=smoke_demo.xlsx A5=ПТ-00017121 mv=10 bal=13 out=5 B2=Сверка выполнена 27.10.2026 11:04. Разница = книга - 1С. Допуск: 0. loaded rows=2 mismatch=0
+

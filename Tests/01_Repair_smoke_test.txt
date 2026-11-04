@@ -1,0 +1,14 @@
+﻿started
+OK
+migration-repeat=OK
+01=D000001
+05=D000002
+06=D000003
+45=D000004; ПР=90; РЕМ=10
+46=D000005; ПР=96; РЕМ=4
+negative-overdraw=True
+negative-order=True
+negative-address=True
+46-full=D000006; ПР=100; РЕМ=0
+control-errors=0
+published=/data/v82/smoke/Publish/ELKA_data_v000001.xlsx

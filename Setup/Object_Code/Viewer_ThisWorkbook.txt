@@ -1,0 +1,23 @@
+Option Explicit
+' ELKA v8.2 — события книги-просмотрщика (ЭтаКнига / ThisWorkbook)
+
+Private Sub Workbook_Open()
+    On Error Resume Next
+    ThisWorkbook.Worksheets(V_PANEL).Activate
+    Viewer_AutoRefresh
+End Sub
+
+Private Sub Workbook_BeforeClose(Cancel As Boolean)
+    On Error Resume Next
+    Application.StatusBar = False
+End Sub
+
+Private Sub Workbook_SheetBeforeDoubleClick(ByVal Sh As Object, ByVal Target As Range, Cancel As Boolean)
+    On Error Resume Next
+    If Target.Row < 4 Then Exit Sub
+    If (Sh.Name = "Движение" And (Target.Column = 15 Or Target.Column = 16)) Or _
+       (Sh.Name = "Файлы" And (Target.Column = 3 Or Target.Column = 5)) Then
+        Cancel = True
+        V_OpenForRow Sh, Target.Row
+    End If
+End Sub

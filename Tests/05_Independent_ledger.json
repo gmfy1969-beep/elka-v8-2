@@ -1,0 +1,27 @@
+﻿{
+  "version": "8.2",
+  "nomenclature": 255,
+  "tracked_locations": [
+    "ЦС",
+    "ВК",
+    "ПС",
+    "ПР",
+    "ПФД",
+    "БРАК",
+    "ГП",
+    "РЕМ"
+  ],
+  "movement_rows": 7,
+  "operation_row_counts": {
+    "01": 1,
+    "05": 1,
+    "06": 1,
+    "45": 2,
+    "46": 2
+  },
+  "repair_rows": 4,
+  "formula_cells_compared": 2040,
+  "repair_ending_quantity": 3.0,
+  "errors": [],
+  "environment": "LibreOffice VBA compatibility + independent Python ledger; not Windows Excel"
+}

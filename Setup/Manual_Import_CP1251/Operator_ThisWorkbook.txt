@@ -1,0 +1,91 @@
+Option Explicit
+' ============================================================
+' ELKA v8.2 — СОБЫТИЯ КНИГИ ОПЕРАТОРА (модуль ЭтаКнига / ThisWorkbook)
+' ============================================================
+
+Private Sub Workbook_Open()
+    On Error Resume Next
+    gSilent = False
+    Menu_Install
+    RefreshInputFiles
+    If Len(Txt(Worksheets(SH_INPUT).Range(IN_DATE).Value)) = 0 Then Worksheets(SH_INPUT).Range(IN_DATE).Value = Date
+End Sub
+
+Private Sub Workbook_Activate()
+    On Error Resume Next
+    Menu_Install
+End Sub
+
+Private Sub Workbook_Deactivate()
+    On Error Resume Next
+    Menu_Remove
+End Sub
+
+Private Sub Workbook_BeforeClose(Cancel As Boolean)
+    On Error Resume Next
+    Menu_Remove
+End Sub
+
+' Двойной щелчок: открыть файл документа / фото
+Private Sub Workbook_SheetBeforeDoubleClick(ByVal Sh As Object, ByVal Target As Range, Cancel As Boolean)
+    On Error Resume Next
+    If Target.Row < FIRST_ROW Then Exit Sub
+    Select Case Sh.Name
+    Case SH_MOVE
+        If Target.Column = J_FILES Or Target.Column = J_DOC Then
+            If Len(Txt(Target.Value)) > 0 Then Cancel = True: OpenForRow Sh, Target.Row
+        End If
+    Case SH_FILES
+        If Target.Column = F_TITLE Or Target.Column = F_PATH Then Cancel = True: OpenForRow Sh, Target.Row
+    Case SH_NOM
+        If Target.Column = N_PHOTO And Len(Txt(Target.Value)) > 0 Then Cancel = True: OpenForRow Sh, Target.Row
+    End Select
+End Sub
+
+' Ручной ввод: формулы, №, дата, оператор; коды операций «5» -> полное название
+Private Sub Workbook_SheetChange(ByVal Sh As Object, ByVal Target As Range)
+    Dim c As Range, r As Long, full As String
+    On Error GoTo Done
+    If gSilent Then Exit Sub
+    Select Case Sh.Name
+    Case SH_MOVE
+        If Target.Cells.Count > 2000 Then Exit Sub
+        If Intersect(Target, Sh.Range(Sh.Cells(FIRST_ROW, J_DATE), Sh.Cells(Sh.Rows.Count, J_LAST))) Is Nothing Then Exit Sub
+        Application.EnableEvents = False
+        For Each c In Intersect(Target, Sh.Range(Sh.Cells(FIRST_ROW, 1), Sh.Cells(Sh.Rows.Count, J_LAST))).Rows
+            r = c.Row
+            If Len(Txt(Sh.Cells(r, J_OP).Value)) > 0 Then
+                full = OpFullName(Txt(Sh.Cells(r, J_OP).Value))
+                If Len(full) > 0 And full <> Txt(Sh.Cells(r, J_OP).Value) Then Sh.Cells(r, J_OP).Value = full
+                If Len(Txt(Sh.Cells(r, J_NO).Value)) = 0 Then Sh.Cells(r, J_NO).Value = NextRowNo()
+                If Len(Txt(Sh.Cells(r, J_DATE).Value)) = 0 Then Sh.Cells(r, J_DATE).Value = Date
+                If Len(Txt(Sh.Cells(r, J_USER).Value)) = 0 Then Sh.Cells(r, J_USER).Value = UserName()
+                If Len(Txt(Sh.Cells(r, J_CREATED).Value)) = 0 Then Sh.Cells(r, J_CREATED).Value = Now
+                EnsureJournalFormulas r, r
+                FormatJournalRows r, r
+            End If
+        Next c
+    Case SH_INPUT
+        If Not Intersect(Target, Sh.Range(IN_OP)) Is Nothing Then
+            full = OpFullName(Txt(Sh.Range(IN_OP).Value))
+            Application.EnableEvents = False
+            If Len(full) > 0 Then
+                If full <> Txt(Sh.Range(IN_OP).Value) Then Sh.Range(IN_OP).Value = full
+            ElseIf Len(Txt(Sh.Range(IN_OP).Value)) > 0 Then
+                MsgBox "Операция «" & Txt(Sh.Range(IN_OP).Value) & "» не найдена. Выберите из списка или введите код (например 6 или 06).", vbExclamation
+            End If
+        End If
+    Case SH_NOM
+        If Target.Cells.Count = 1 And Target.Column = N_CODE And Target.Row >= FIRST_ROW Then
+            Application.EnableEvents = False
+            If Txt(Target.Value) <> CStr(Target.Value) Then Target.Value = Txt(Target.Value)
+            If Len(Txt(Target.Value)) > 0 Then
+                If Application.WorksheetFunction.CountIf(Sh.Columns(N_CODE), Txt(Target.Value)) > 1 Then
+                    MsgBox "Код «" & Txt(Target.Value) & "» уже есть в справочнике. Коды должны быть уникальными.", vbExclamation, "Дубль кода"
+                End If
+            End If
+        End If
+    End Select
+Done:
+    Application.EnableEvents = True
+End Sub
